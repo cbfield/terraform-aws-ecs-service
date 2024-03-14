@@ -228,7 +228,7 @@ resource "aws_ecs_task_definition" "this" {
   # https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task_definition_parameters.html#task_size
   container_definitions = coalesce(var.ecs_task_definition.container_definitions, jsonencode([
     {
-      name      = var.ecs_task_definition.family
+      name      = var.ecs_service.name
       image     = var.ecs_task_definition.image
       cpu       = var.ecs_task_definition.cpu
       memory    = var.ecs_task_definition.memory
