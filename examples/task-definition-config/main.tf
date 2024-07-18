@@ -40,5 +40,16 @@ module "my_ecs_service" {
         ]
       }
     ])
+    volumes = [{
+      name = "efs"
+      efs_volume_configuration = {
+        file_system_id     = "fs-123123"
+        transit_encryption = "ENABLED"
+        authorization_config = {
+          access_point_id = "ap-123123"
+          iam             = "ENABLED"
+        }
+      }
+    }]
   }
 }
