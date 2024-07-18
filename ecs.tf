@@ -240,4 +240,30 @@ resource "aws_ecs_task_definition" "this" {
         }
       ]
   }]))
+
+  dynamic "volume" {
+    for_each = {
+      for vol in var.ecs_task_definition.volumes : vol.name => vol
+    }
+    content {
+      name      = volume.value.name
+      host_path = volume.value.host_path
+      dynamic "efs_volume_configuration" {
+        for_each = volume.value.efs_volume_configuration != null ? [1] : []
+        content {
+          file_system_id          = volume.value.efs_volume_configuration.file_system_id
+          root_directory          = volume.value.efs_volume_configuration.root_directory
+          transit_encryption      = volume.value.efs_volume_configuration.transit_encryption
+          transit_encryption_port = volume.value.efs_volume_configuration.transit_encryption_port
+          dynamic "authorization_config" {
+            for_each = try(volume.value.efs_volume_configuration.authorization_config, null) != null ? [1] : []
+            content {
+              access_point_id = volume.value.efs_volume_configuration.authorization_config.access_point_id
+              iam             = volume.value.efs_volume_configuration.authorization_config.iam
+            }
+          }
+        }
+      }
+    }
+  }
 }
