@@ -1,6 +1,5 @@
 module "acm_certificate" {
-  source  = "app.terraform.io/cbfield/acm-certificate/aws"
-  version = "2.0.0"
+  source  = "github.com/cbfield/terraform-aws-acm-certificate"
   count   = var.dns.create && var.acm_certificate.create ? 1 : 0
 
   domain            = coalesce(var.acm_certificate.domain, var.dns.name)
