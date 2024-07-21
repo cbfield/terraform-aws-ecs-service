@@ -1,5 +1,5 @@
 resource "aws_iam_role" "task" {
-  name = "ecs-${local.name}-task"
+  name = "ecs-${var.ecs_service.name}-task"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
@@ -46,7 +46,7 @@ resource "aws_iam_role_policy" "task" {
 }
 
 resource "aws_iam_role" "execution" {
-  name = "ecs-${local.name}-execution"
+  name = "ecs-${var.ecs_service.name}-execution"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"

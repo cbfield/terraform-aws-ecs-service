@@ -62,7 +62,7 @@ variable "ecs_cluster" {
 variable "ecs_service" {
   description = "Configurations for the ECS service managed by this module"
   type = object({
-    name                               = optional(string)
+    name                               = string
     desired_count                      = optional(number, 1)
     enable_ecs_managed_tags            = optional(bool, true)
     enable_execute_command             = optional(bool, true)

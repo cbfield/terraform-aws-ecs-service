@@ -1,11 +1,11 @@
 resource "aws_security_group" "load_balancer" {
   count = var.load_balancer.create ? 1 : 0
 
-  name   = "ecs-${local.name}"
+  name   = "ecs-${var.ecs_service.name}"
   vpc_id = var.load_balancer.vpc_id
 
   tags = {
-    "Name" = "ecs-${local.name}-load-balancer"
+    "Name" = "ecs-${var.ecs_service.name}-load-balancer"
   }
 }
 
@@ -58,11 +58,11 @@ resource "aws_vpc_security_group_egress_rule" "lb_to_service" {
 }
 
 resource "aws_security_group" "service" {
-  name   = local.name
+  name   = var.ecs_service.name
   vpc_id = var.ecs_service.network_configuration.vpc_id
 
   tags = {
-    "Name" = "ecs-${local.name}"
+    "Name" = "ecs-${var.ecs_service.name}"
   }
 }
 

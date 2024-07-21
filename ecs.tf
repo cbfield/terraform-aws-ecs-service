@@ -1,15 +1,7 @@
-resource "random_pet" "name" {
-  count = var.ecs_service.name == null ? 1 : 0
-}
-
-locals {
-  name = coalesce(var.ecs_service.name, try(random_pet.name[0].id, null))
-}
-
 resource "aws_ecs_cluster" "this" {
   count = var.ecs_cluster.use_existing ? 0 : 1
 
-  name = local.name
+  name = var.ecs_service.name
   tags = var.ecs_cluster.tags
 
   dynamic "configuration" {
@@ -23,7 +15,7 @@ resource "aws_ecs_cluster" "this" {
 
           log_configuration {
             cloud_watch_encryption_enabled = var.ecs_cluster.configuration.execute_command_configuration.log_configuration.cloud_watch_encryption_enabled
-            cloud_watch_log_group_name     = coalesce(var.ecs_cluster.configuration.execute_command_configuration.log_configuration.cloud_watch_log_group_name, aws_cloudwatch_log_group.this[0].name)
+            cloud_watch_log_group_name     = var.ecs_cluster.configuration.execute_command_configuration.log_configuration.cloud_watch_log_group_name
             s3_bucket_name                 = var.ecs_cluster.configuration.execute_command_configuration.log_configuration.s3_bucket_name
             s3_bucket_encryption_enabled   = var.ecs_cluster.configuration.execute_command_configuration.log_configuration.s3_bucket_encryption_enabled
             s3_key_prefix                  = var.ecs_cluster.configuration.execute_command_configuration.log_configuration.s3_key_prefix
