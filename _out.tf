@@ -13,11 +13,6 @@ output "aws_region" {
   value       = data.aws_region.current
 }
 
-output "cloudwatch_log_group" {
-  description = "The CloudWatch log group managed by this module"
-  value       = one(aws_cloudwatch_log_group.this)
-}
-
 output "dns_record" {
   description = "The Route53 DNS record managed by this module"
   value       = one(aws_route53_record.this)
