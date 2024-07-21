@@ -12,19 +12,6 @@ variable "acm_certificate" {
   }
 }
 
-variable "cloudwatch_log_group" {
-  description = "Configurations for a CloudWatch log group associated with the ECS cluster, if created by this module"
-  type = object({
-    create            = optional(bool, true)
-    retention_in_days = optional(number, 7)
-    log_group_class   = optional(string)
-    kms_key_id        = optional(string)
-    skip_destroy      = optional(bool)
-    tags              = optional(map(string), {})
-  })
-  default = {}
-}
-
 variable "dns" {
   description = "Configurations for the DNS record managed by this module"
   type = object({
