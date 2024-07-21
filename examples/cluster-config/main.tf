@@ -28,15 +28,6 @@ module "my_ecs_service" {
     }]
   }
 
-  cloudwatch_log_group = {
-    kms_key_id        = "00000000-0000-0000-0000-000000000000"
-    retention_in_days = 30
-    skip_destroy      = true
-    tags = {
-      "tag1" = "value"
-    }
-  }
-
   # The following can be used to deploy an ECS service into
   # an existing cluster, instead of creating a new one
   # ecs_cluster = {

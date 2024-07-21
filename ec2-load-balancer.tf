@@ -1,7 +1,7 @@
 resource "aws_lb" "this" {
   count = var.load_balancer.create ? 1 : 0
 
-  name_prefix        = substr(local.name, 0, 6)
+  name               = var.ecs_service.name
   internal           = var.load_balancer.internal
   load_balancer_type = "application"
   security_groups    = concat(var.load_balancer.security_groups, [aws_security_group.load_balancer[0].id])
@@ -44,7 +44,7 @@ resource "aws_lb_listener" "port_80" {
 resource "aws_lb_target_group" "this" {
   count = var.load_balancer.create ? 1 : 0
 
-  name_prefix = substr(local.name, 0, 6)
+  name_prefix = substr(var.ecs_service.name, 0, 6)
   port        = var.ecs_service.load_balancer.container_port
   protocol    = "HTTP"
   target_type = var.load_balancer.target_type
